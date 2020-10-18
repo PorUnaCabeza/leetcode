@@ -24,20 +24,19 @@ const mockData = {
   }
 }
 var findTilt = function (root) {
-  const tiltArray = []
+  let res = 0
   const dfs = function (node) {
     if (!node) {
-      tiltArray.push(0)
       return 0
     }
     const leftResult = dfs(node.left)
     const rightResult = dfs(node.right)
     const tilt = Math.abs(leftResult - rightResult)
-    tiltArray.push(tilt)
+    res+=tilt
     return node.val + leftResult + rightResult
   }
   dfs(root)
-  return tiltArray.reduce((prev, next) => prev+next, 0)
+  return res
 }
 
 console.log(findTilt(mockData))

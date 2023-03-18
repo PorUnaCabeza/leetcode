@@ -2,23 +2,18 @@
  * @param {string} s
  * @return {string}
  */
+
+let maxStr = '';
+
 var longestPalindrome = function (s) {
-  let max = 0;
-  let maxStr = s[0];
   if (s.length <= 1) {
     return s;
   }
+  maxStr = s[0];
 
   for (let i = 0; i < s.length; i++) {
-    for (let j = i + 1; j < s.length; j++) {
-      const subString = s.substring(i, j + 1);
-      if (isPalindrome(subString)) {
-        if (subString.length > max) {
-          max = subString.length;
-          maxStr = subString
-        }
-      }
-    }
+    extendFromCenter(s, i, i);
+    extendFromCenter(s, i, i + 1);
   }
   return maxStr;
 };
@@ -38,5 +33,24 @@ const isPalindrome = function (str) {
   return true;
 };
 
+const extendFromCenter = function (str, leftCursor, rightCursor) {
+  let left = leftCursor;
+  let right = rightCursor;
+  while (left >= 0 && right < str.length) {
+    if (str[left] === str[right]) {
+      left--;
+      right++;
+    } else {
+      break;
+    }
+  }
+  if (left === right) {
+    return str[left];
+  }
+  const length = right - left - 1;
+  if (length > maxStr.length) {
+    maxStr = str.substr(left + 1, length);
+  }
+};
 
-console.log(longestPalindrome('bb'))
+console.log(longestPalindrome('bb'));

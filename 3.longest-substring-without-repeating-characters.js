@@ -56,16 +56,28 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function(s) {
-  if (s.length < 2) return s.length
-  let max = 0
-  let cursor = 0
-  for (let i = 0; i < s.length; i++) {
-    let index = s.indexOf(s[i], cursor)
-    if (index > -1 && index < i) {
-      cursor = index + 1
-    }
-    max = Math.max(max, i - cursor + 1)
+  if (s.length < 2) {
+    return s.length;
   }
-  return max
-}
+  let left = 0;
+  let right = 0;
+  let max = 1;
+  let hashSet = new Set();
+  while(right < s.length) {
+    if (hashSet.has(s[right])) {
+      hashSet.delete(s[left]);
+      left++;
+    } else {
+      max = Math.max(max, right-left + 1)
+      hashSet.add(s[right]);
+      right++;
+    }
+  }
+  console.log(max)
+  return max;
+
+};
+
+
+lengthOfLongestSubstring('abcadd')
 // @lc code=end
